@@ -13,9 +13,12 @@ var _HealthcheckController = _interopRequireDefault(require("./controllers/Healt
 
 var _RegistrationController = _interopRequireDefault(require("./controllers/RegistrationController"));
 
+var _ReportController = _interopRequireDefault(require("./controllers/ReportController"));
+
 var router = _express["default"].Router();
 
-router.use('/health', _HealthcheckController["default"]); // router.use('/register', RegistrationController);
-
+router.use('/', _HealthcheckController["default"]);
+router.use('/register', _RegistrationController["default"]);
+router.use('/reports', _ReportController["default"]);
 var _default = router;
 exports["default"] = _default;

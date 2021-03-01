@@ -23,6 +23,9 @@ var App = (0, _express["default"])();
 App.use((0, _compression["default"])());
 App.use((0, _cors["default"])());
 App.use(_bodyParser["default"].json());
+App.use(_bodyParser["default"].text({
+  type: '*/*'
+}));
 App.use(_bodyParser["default"].urlencoded({
   extended: true
 }));

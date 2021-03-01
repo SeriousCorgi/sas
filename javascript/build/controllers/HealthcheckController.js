@@ -38,6 +38,6 @@ var healthcheckHandler = /*#__PURE__*/function () {
   };
 }();
 
-HealthcheckController.route('/healthcheck').get(healthcheckHandler);
+HealthcheckController.get('/healthcheck', healthcheckHandler);
 var _default = HealthcheckController;
 exports["default"] = _default;
