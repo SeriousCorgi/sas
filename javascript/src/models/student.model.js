@@ -9,11 +9,13 @@ module.exports = (sequelize, DataTypes) => {
             primaryKey: true
         },
         name: {
-            type: DataTypes.STRING
+            type: DataTypes.STRING,
+            allowNull: false,
         },
         email: {
             type: DataTypes.STRING,
-            unique: true
+            unique: true,
+            allowNull: false,
         }
     }, {
         timestamps: false,

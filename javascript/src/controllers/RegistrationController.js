@@ -16,7 +16,6 @@ const subjectService = new SubjectService();
 const studentService = new StudentService();
 
 const registerHandler = async (req, res) => {
-    LOG.info(JSON.stringify(req.body));
 
     const data = req.body
     try {
@@ -54,11 +53,11 @@ const registerHandler = async (req, res) => {
         res.sendStatus(204);
     } catch (err) {
         if (err instanceof db.Sequelize.UniqueConstraintError) {
-            LOG.warn(err);
+            LOG.warn(err + " : Duplicate entry");
             res.sendStatus(204);
         } else if (err instanceof db.Sequelize.DatabaseError) {
-            LOG.error(err);
-            res.sendStatus(400);
+            LOG.error(err.parent.message);
+            res.status(400).send(err.parent.message);
         } else {
             LOG.error(err);
             res.sendStatus(500);

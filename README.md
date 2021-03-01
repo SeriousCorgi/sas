@@ -7,7 +7,7 @@ You can add additional library that will aid you in fulfiling the requirements.
 Please read through NodeJS_Assessment.pdf carefully before you attempt.
 
 ## Prerequisites
-- NodeJS v12.x.x
+- NodeJS v14.15.4
 - Docker
 
 <br>
@@ -53,6 +53,13 @@ npm start
 This will start the application in watch mode.
 ```bash
 npm run start:dev
+```
+
+### Testing Project
+Unit testing project API.
+This will run all the unit tests.
+```bash
+npm test
 ```
 
 <br>

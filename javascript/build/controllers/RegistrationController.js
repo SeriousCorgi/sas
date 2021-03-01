@@ -42,88 +42,87 @@ var registerHandler = /*#__PURE__*/function () {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            LOG.info(JSON.stringify(req.body));
             data = req.body;
-            _context.prev = 2;
+            _context.prev = 1;
             teacher = null;
             students = [];
             subject = null;
             class_data = null;
 
             if (!data.teacher) {
-              _context.next = 11;
+              _context.next = 10;
               break;
             }
 
-            _context.next = 10;
+            _context.next = 9;
             return teacherService.upsert(data.teacher);
 
-          case 10:
+          case 9:
             teacher = _context.sent;
 
-          case 11:
+          case 10:
             ;
 
             if (!data.students) {
-              _context.next = 23;
+              _context.next = 22;
               break;
             }
 
             i = 0;
 
-          case 14:
+          case 13:
             if (!(i < data.students.length)) {
-              _context.next = 23;
+              _context.next = 22;
               break;
             }
 
             _context.t0 = students;
-            _context.next = 18;
+            _context.next = 17;
             return studentService.upsert(data.students[i]);
 
-          case 18:
+          case 17:
             _context.t1 = _context.sent;
 
             _context.t0.push.call(_context.t0, _context.t1);
 
-          case 20:
+          case 19:
             i++;
-            _context.next = 14;
+            _context.next = 13;
             break;
 
-          case 23:
+          case 22:
             if (!data.subject) {
-              _context.next = 27;
+              _context.next = 26;
               break;
             }
 
-            _context.next = 26;
+            _context.next = 25;
             return subjectService.upsert(data.subject);
 
-          case 26:
+          case 25:
             subject = _context.sent;
 
-          case 27:
+          case 26:
             ;
 
             if (!data["class"]) {
-              _context.next = 32;
+              _context.next = 31;
               break;
             }
 
-            _context.next = 31;
+            _context.next = 30;
             return classService.upsert(data["class"]);
 
-          case 31:
+          case 30:
             class_data = _context.sent;
 
-          case 32:
+          case 31:
             if (!(data.teacher && data.subject && data["class"])) {
-              _context.next = 35;
+              _context.next = 34;
               break;
             }
 
-            _context.next = 35;
+            _context.next = 34;
             return _db["default"].teacher_subject_class.create({
               teacherID: teacher.ID,
               subjectCode: subject.subjectCode,
@@ -131,57 +130,57 @@ var registerHandler = /*#__PURE__*/function () {
               classCode: class_data.classCode
             });
 
-          case 35:
+          case 34:
             if (!(data.students && data["class"])) {
-              _context.next = 43;
+              _context.next = 42;
               break;
             }
 
             _i = 0;
 
-          case 37:
+          case 36:
             if (!(_i < students.length)) {
-              _context.next = 43;
+              _context.next = 42;
               break;
             }
 
-            _context.next = 40;
+            _context.next = 39;
             return _db["default"].student_class.create({
               studentID: students[_i].ID,
               classCode: class_data.classCode
             });
 
-          case 40:
+          case 39:
             _i++;
-            _context.next = 37;
+            _context.next = 36;
             break;
 
-          case 43:
+          case 42:
             res.sendStatus(204);
-            _context.next = 49;
+            _context.next = 48;
             break;
 
-          case 46:
-            _context.prev = 46;
-            _context.t2 = _context["catch"](2);
+          case 45:
+            _context.prev = 45;
+            _context.t2 = _context["catch"](1);
 
             if (_context.t2 instanceof _db["default"].Sequelize.UniqueConstraintError) {
-              LOG.warn(_context.t2);
+              LOG.warn(_context.t2 + " : Duplicate entry");
               res.sendStatus(204);
             } else if (_context.t2 instanceof _db["default"].Sequelize.DatabaseError) {
-              LOG.error(_context.t2);
-              res.sendStatus(400);
+              LOG.error(_context.t2.parent.message);
+              res.status(400).send(_context.t2.parent.message);
             } else {
               LOG.error(_context.t2);
               res.sendStatus(500);
             }
 
-          case 49:
+          case 48:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[2, 46]]);
+    }, _callee, null, [[1, 45]]);
   }));
 
   return function registerHandler(_x, _x2) {

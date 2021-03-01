@@ -17,6 +17,9 @@ var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/creat
 
 var _db = _interopRequireDefault(require("../../models/db"));
 
+var _logger = _interopRequireDefault(require("../../config/logger"));
+
+var LOG = new _logger["default"]('subject.service.js');
 var Subject = _db["default"].subject;
 
 var SubjectService = /*#__PURE__*/function () {
@@ -34,51 +37,65 @@ var SubjectService = /*#__PURE__*/function () {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.prev = 0;
-                _context.next = 3;
+
+                if (!(data.subjectCode == null || data.name == null)) {
+                  _context.next = 3;
+                  break;
+                }
+
+                throw new _db["default"].Sequelize.DatabaseError(new Error('Missing input field'));
+
+              case 3:
+                _context.next = 5;
                 return Subject.findOne({
                   where: {
                     subjectCode: data.subjectCode
                   }
                 });
 
-              case 3:
+              case 5:
                 subject = _context.sent;
 
                 if (!subject) {
-                  _context.next = 8;
+                  _context.next = 13;
                   break;
                 }
 
                 if (!(subject.name != data.name)) {
-                  _context.next = 7;
+                  _context.next = 10;
                   break;
                 }
 
+                LOG.info("Updating subject: " + subject.name);
                 return _context.abrupt("return", subject.update({
                   name: data.name
                 }));
 
-              case 7:
+              case 10:
                 return _context.abrupt("return", subject);
 
-              case 8:
-                ;
+              case 13:
+                LOG.info("Adding new subject: " + data.name);
                 return _context.abrupt("return", Subject.create({
                   name: data.name,
                   subjectCode: data.subjectCode
                 }));
 
-              case 12:
-                _context.prev = 12;
+              case 15:
+                _context.next = 20;
+                break;
+
+              case 17:
+                _context.prev = 17;
                 _context.t0 = _context["catch"](0);
                 throw _context.t0;
 
-              case 15:
+              case 20:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[0, 12]]);
+        }, _callee, null, [[0, 17]]);
       }));
 
       function upsert(_x) {

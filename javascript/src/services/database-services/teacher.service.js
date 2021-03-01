@@ -9,18 +9,29 @@ const TSC = db.teacher_subject_class;
 export default class TeacherService {
 
     async upsert(data) {
+        /**
+         * Update record if exist, else create new record
+         */
+
         try {
+            if (data.email == null || data.name == null) throw new db.Sequelize.DatabaseError(new Error('Missing input field'));
+
             const teacher = await Teacher.findOne({ where: { email: data.email } });
 
             if (teacher) {
-                if (teacher.name != data.name) return teacher.update({ name: data.name });
+                if (teacher.name != data.name) {
+                    LOG.info("Updating teacher: " + teacher.name);
+                    return teacher.update({ name: data.name });
+                }
                 return teacher;
+            } else {
+                LOG.info("Adding new teacher: " + data.name)
+                return Teacher.create({
+                    name: data.name,
+                    email: data.email
+                });
             }
 
-            return Teacher.create({
-                name: data.name,
-                email: data.email
-            });
         } catch (err) {
             throw err;
         }
