@@ -16,4 +16,5 @@ App.use(bodyParser.urlencoded({ extended: true }));
 App.use('/api', router);
 App.use(globalErrorHandler);
 
+
 export default App;
